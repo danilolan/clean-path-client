@@ -9,9 +9,10 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        darkBlue : "#0F1924",
-        darkGrey: "#131A21"
-      }
+        darkBlue: "#0F1924",
+        darkGrey: "#606163",
+        lightGrey: "#EFF3F8",
+      },
     },
   },
   plugins: [],
