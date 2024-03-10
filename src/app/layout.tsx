@@ -21,9 +21,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="flex">
+      <body className="flex overflow-x-hidden">
         <Navbar />
-        <main className="flex min-h-screen flex-col items-center justify-between p-24 bg-lightGrey w-full">
+        <main className="flex min-h-screen flex-col items-center justify-between p-24 bg-lightGrey w-full ml-56">
           {children}
         </main>
         <ToastContainer />

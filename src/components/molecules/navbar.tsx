@@ -6,9 +6,10 @@ import {
   ListItemButton,
   ListItemText,
 } from "@mui/material";
-import TableChartIcon from "@mui/icons-material/TableChart";
-import AddBoxIcon from "@mui/icons-material/AddBox";
-import WindowIcon from "@mui/icons-material/Window";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
+import BackupTableOutlinedIcon from "@mui/icons-material/BackupTableOutlined";
+import RouteOutlinedIcon from "@mui/icons-material/RouteOutlined";
 
 type Button = {
   label: string;
@@ -19,7 +20,7 @@ type Button = {
 const primaryButtons: Button[] = [
   {
     label: "Home",
-    icon: <WindowIcon />,
+    icon: <HomeOutlinedIcon />,
     url: "",
   },
 ];
@@ -27,13 +28,18 @@ const primaryButtons: Button[] = [
 const secundaryButtons: Button[] = [
   {
     label: "List",
-    icon: <TableChartIcon />,
+    icon: <BackupTableOutlinedIcon />,
     url: "list",
   },
   {
     label: "Add",
-    icon: <AddBoxIcon />,
+    icon: <AddCircleOutlineOutlinedIcon />,
     url: "add",
+  },
+  {
+    label: "Path",
+    icon: <RouteOutlinedIcon />,
+    url: "path",
   },
 ];
 
@@ -50,7 +56,7 @@ function Item({ label, url, icon }: Button) {
 
 export default function Navbar() {
   return (
-    <div className="w-56 bg-white shadow-lg text-darkGrey font-medium">
+    <div className="w-56 bg-white shadow-lg text-darkGrey font-medium fixed h-full z-50">
       <List>
         {primaryButtons.map(({ label, icon, url }) => (
           <Item label={label} icon={icon} url={url} key={label} />
