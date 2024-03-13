@@ -13,23 +13,32 @@ import {
   useTheme,
   TableFooter,
   TablePagination,
-} from "@mui/material";
-import page, { Customer } from "../page";
+  CircularProgress,
+} from "@mui/material";;
 import { KeyboardArrowRight, KeyboardArrowLeft } from "@mui/icons-material";
 import { TablePaginationActionsProps } from "@mui/material/TablePagination/TablePaginationActions";
 import FirstPageIcon from "@mui/icons-material/FirstPage";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import { useState } from "react";
+import useSWR from "swr";
+import { AllCustomersDTO } from "@/types/dtos";
 
-type Props = { data: Customer[] };
-
-export default function Table({ data }: Props) {
+export default function Table() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [totalCount, setTotalCount] = useState(0);
 
-  // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
+  const { data, isLoading } = useSWR<AllCustomersDTO>(
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/customers?page=${
+      page + 1
+    }&limit=${rowsPerPage}`,
+    async (url: string) => {
+      const response = await fetch(url);
+      const data: AllCustomersDTO = await response.json();
+      setTotalCount(data.total);
+      return data;
+    }
+  );
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -114,11 +123,14 @@ export default function Table({ data }: Props) {
       </Box>
     );
   }
-  return (
+  return isLoading ? (
+    <CircularProgress />
+  ) : (
     <TableContainer component={Paper}>
       <MuiTable sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
+            <TableCell>Id</TableCell>
             <TableCell>Name</TableCell>
             <TableCell align="right">Email</TableCell>
             <TableCell align="right">Phone</TableCell>
@@ -126,11 +138,14 @@ export default function Table({ data }: Props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map(({ name, email, phone, position }) => (
+          {data?.customers.map(({ name, email, phone, position, id }) => (
             <TableRow
-              key={name}
+              key={id}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
+              <TableCell component="th" scope="row">
+                {id}
+              </TableCell>
               <TableCell component="th" scope="row">
                 {name}
               </TableCell>
@@ -143,9 +158,9 @@ export default function Table({ data }: Props) {
         <TableFooter>
           <TableRow>
             <TablePagination
+              count={totalCount}
               rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
               colSpan={3}
-              count={data.length}
               rowsPerPage={rowsPerPage}
               page={page}
               slotProps={{

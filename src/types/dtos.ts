@@ -11,6 +11,13 @@ export type CustomerDTO = {
   };
 };
 
+export type AllCustomersDTO = {
+  total: number;
+  page: number;
+  limit: number;
+  customers: CustomerDTO[];
+};
+
 export type Position = {
   x: number;
   y: number;
