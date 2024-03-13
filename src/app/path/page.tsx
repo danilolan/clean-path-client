@@ -3,7 +3,7 @@
 import Plotly from "plotly.js-dist-min";
 import { useEffect } from "react";
 import { Customer } from "../list/page";
-import { Divider } from "@mui/material";
+import { CircularProgress, Divider } from "@mui/material";
 import useSWR from "swr";
 import { PathDto } from "@/types/dtos";
 import { toast } from "react-toastify";
@@ -29,7 +29,7 @@ function pointsToPloty(points: PathDto): Plotly.Data {
 }
 
 export default function Path() {
-  const { data, error } = useSWR<PathDto>(
+  const { data, error, isLoading } = useSWR<PathDto>(
     `${process.env.NEXT_PUBLIC_SERVER_URL}/path`,
     (url: string | URL | Request) => fetch(url).then((r) => r.json())
   );
@@ -48,25 +48,33 @@ export default function Path() {
 
   return (
     <div className="flex flex-col gap-8">
-      <div className="p-8 bg-white rounded shadow w-full">
-        <h2 className="font-medium text-3xl text-primary text-center">
-          Best path
-        </h2>
-        <Divider sx={{ marginY: "12px" }} />
-        <div className="flex flex-wrap gap-4 text-darkGrey">
-          {data?.map((point, index) => (
-            <div className="flex items-center gap-4" key={point.name}>
-              <p className="font-normal">{point.name}</p>
-              <span className="font-black text-primary">
-                {index + 1 != data.length && ">"}
-              </span>
-            </div>
-          ))}
+      {isLoading ? (
+        <div className="p-8 bg-white rounded shadow w-full">
+          <CircularProgress />
         </div>
-      </div>
-      <div className="p-8 bg-white rounded shadow w-full">
-        <div id="myDiv" className="w-full"></div>
-      </div>
+      ) : (
+        <>
+          <div className="p-8 bg-white rounded shadow w-full">
+            <h2 className="font-medium text-3xl text-primary text-center">
+              Best path
+            </h2>
+            <Divider sx={{ marginY: "12px" }} />
+            <div className="flex flex-wrap gap-4 text-darkGrey">
+              {data?.map((point, index) => (
+                <div className="flex items-center gap-4" key={point.name}>
+                  <p className="font-normal">{point.name}</p>
+                  <span className="font-black text-primary">
+                    {index + 1 != data.length && ">"}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="p-8 bg-white rounded shadow w-full">
+            <div id="myDiv" className="w-full"></div>
+          </div>
+        </>
+      )}
     </div>
   );
 }
