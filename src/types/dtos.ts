@@ -16,7 +16,9 @@ export type Position = {
   y: number;
 };
 
-export type PathDto = {
+export type Point = {
   name: string;
   position: Position;
-}[];
+};
+
+export type PathDto = Point[];
