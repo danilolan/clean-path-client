@@ -14,7 +14,7 @@ import {
   TableFooter,
   TablePagination,
   CircularProgress,
-} from "@mui/material";;
+} from "@mui/material";
 import { KeyboardArrowRight, KeyboardArrowLeft } from "@mui/icons-material";
 import { TablePaginationActionsProps } from "@mui/material/TablePagination/TablePaginationActions";
 import FirstPageIcon from "@mui/icons-material/FirstPage";
@@ -130,11 +130,11 @@ export default function Table() {
       <MuiTable sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Id</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell align="right">Email</TableCell>
-            <TableCell align="right">Phone</TableCell>
-            <TableCell align="right">Position</TableCell>
+            <TableCell className="text-primary font-bold">Id</TableCell>
+            <TableCell className="text-primary font-bold">Name</TableCell>
+            <TableCell className="text-primary font-bold">Email</TableCell>
+            <TableCell className="text-primary font-bold">Phone</TableCell>
+            <TableCell className="text-primary font-bold">Position</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -149,9 +149,18 @@ export default function Table() {
               <TableCell component="th" scope="row">
                 {name}
               </TableCell>
-              <TableCell align="right">{email}</TableCell>
-              <TableCell align="right">{phone}</TableCell>
-              <TableCell align="right">{position.x}</TableCell>
+              <TableCell>{email}</TableCell>
+              <TableCell>{phone}</TableCell>
+              <TableCell>
+                <div className="flex">
+                  <span className="font-bold text-primary mr-2">X:</span>
+                  <p>{position.x}</p>
+                </div>
+                <div className="flex">
+                  <span className="font-bold text-primary mr-2">Y:</span>
+                  <p>{position.y}</p>
+                </div>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
