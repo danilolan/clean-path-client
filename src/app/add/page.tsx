@@ -1,6 +1,4 @@
-import { Box, Card } from "@mui/material";
 import CustomerForm from "./components/customerForm";
-import { Label } from "@mui/icons-material";
 
 export default function App() {
   return (

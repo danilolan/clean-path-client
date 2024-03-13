@@ -1,15 +1,16 @@
 "use client";
 
+import { CustomerDTO } from "@/types/dtos";
 import { Button, Divider, TextField } from "@mui/material";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { toast } from "react-toastify";
 
 type Inputs = {
   name: string;
-  phone: number;
+  phone: string;
   email: string;
-  x: number;
-  y: number;
+  x: string;
+  y: string;
 };
 
 export default function CustomerForm() {
@@ -18,11 +19,44 @@ export default function CustomerForm() {
     handleSubmit,
     formState: { errors },
     control,
+    reset,
   } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
-    //#TODO call api
-    toast.success("Customer submited");
+  const onSubmit: SubmitHandler<Inputs> = ({ name, email, phone, x, y }) => {
+    const customer: CustomerDTO = {
+      name,
+      email,
+      phone,
+      position: {
+        x: parseInt(x),
+        y: parseInt(y),
+      },
+    };
+    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/customers`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(customer),
+    })
+      .then((resp) => {
+        console.log(resp);
+        if (resp.status !== 200) {
+          toast.error("Try again later");
+          return;
+        }
+        reset({
+          name: "",
+          email: "",
+          phone: "",
+          x: "",
+          y: "",
+        });
+        toast.success("Customer created");
+      })
+      .catch((error) => {
+        console.error(error.message);
+        toast.error("Try again later");
+      });
   };
 
   return (
