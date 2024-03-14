@@ -18,24 +18,22 @@ import FilterInput from "./filter-input";
 import useTable from "../hooks/useTable";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import useFilter from "../hooks/useFilter";
+import usePagination from "../hooks/usePagination";
+import useSort from "../hooks/useSort";
+import TablePaginationActions from "@mui/material/TablePagination/TablePaginationActions";
 
 export default function Table() {
+  const { filterValue, setFilterValue, filterKey, setFilterKey } = useFilter();
+  const { sort, order, handleSortChange } = useSort();
   const {
-    filterValue,
-    setFilterValue,
-    filterKey,
-    setFilterKey,
     page,
     rowsPerPage,
     totalCount,
     handleChangePage,
     handleChangeRowsPerPage,
     updateTotalCount,
-    TablePaginationActions,
-    handleSortChange,
-    order,
-    sort,
-  } = useTable();
+  } = usePagination();
 
   const { data, isLoading } = useSWR<AllCustomersDTO>(
     `${process.env.NEXT_PUBLIC_SERVER_URL}/customers?page=${
