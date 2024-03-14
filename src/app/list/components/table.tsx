@@ -49,7 +49,7 @@ export default function Table() {
   return isLoading ? (
     <CircularProgress />
   ) : (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-8 w-full">
       <FilterInput />
       <TableContainer component={Paper}>
         <MuiTable sx={{ minWidth: 650 }} aria-label="simple table">
