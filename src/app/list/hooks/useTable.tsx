@@ -13,9 +13,14 @@ function useTable(
 ) {
   const [filterValue, setFilterValue] = useState<string>(initialFilterValue);
   const [filterKey, setFilterKey] = useState<string>(initialFilterKey);
+
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(initialRowsPerPage);
+
   const [totalCount, setTotalCount] = useState<number>(0);
+
+  const [sort, setSort] = useState<string>("");
+  const [order, setOrder] = useState<"ASC" | "DESC">("ASC");
 
   const handleChangePage = useCallback(
     (event: MouseEvent<HTMLButtonElement> | null, newPage: number) => {
@@ -30,6 +35,18 @@ function useTable(
       setPage(0);
     },
     []
+  );
+
+  const handleSortChange = useCallback(
+    (column: string) => {
+      if (sort === column) {
+        setOrder((prevOrder) => (prevOrder === "ASC" ? "DESC" : "ASC"));
+      } else {
+        setSort(column);
+        setOrder("ASC");
+      }
+    },
+    [sort]
   );
 
   function TablePaginationActions(props: TablePaginationActionsProps) {
@@ -120,6 +137,9 @@ function useTable(
     handleChangeRowsPerPage,
     updateTotalCount,
     TablePaginationActions,
+    handleSortChange,
+    sort,
+    order,
   };
 }
 

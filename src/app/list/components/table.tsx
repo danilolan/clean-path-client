@@ -8,22 +8,16 @@ import {
   TableCell,
   TableBody,
   Table as MuiTable,
-  Box,
-  IconButton,
-  useTheme,
   TableFooter,
   TablePagination,
   CircularProgress,
 } from "@mui/material";
-import { KeyboardArrowRight, KeyboardArrowLeft } from "@mui/icons-material";
-import { TablePaginationActionsProps } from "@mui/material/TablePagination/TablePaginationActions";
-import FirstPageIcon from "@mui/icons-material/FirstPage";
-import LastPageIcon from "@mui/icons-material/LastPage";
-import { useState } from "react";
 import useSWR from "swr";
 import { AllCustomersDTO } from "@/types/dtos";
 import FilterInput from "./filter-input";
 import useTable from "../hooks/useTable";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 export default function Table() {
   const {
@@ -38,12 +32,15 @@ export default function Table() {
     handleChangeRowsPerPage,
     updateTotalCount,
     TablePaginationActions,
+    handleSortChange,
+    order,
+    sort,
   } = useTable();
 
   const { data, isLoading } = useSWR<AllCustomersDTO>(
     `${process.env.NEXT_PUBLIC_SERVER_URL}/customers?page=${
       page + 1
-    }&limit=${rowsPerPage}&filter=${filterValue}&key=${filterKey}`,
+    }&limit=${rowsPerPage}&filter=${filterValue}&key=${filterKey}&sort=${sort}&order=${order}`,
     async (url: string) => {
       const response = await fetch(url);
       const data: AllCustomersDTO = await response.json();
@@ -66,11 +63,57 @@ export default function Table() {
         <MuiTable sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell className="text-primary font-bold">Id</TableCell>
-              <TableCell className="text-primary font-bold">Name</TableCell>
-              <TableCell className="text-primary font-bold">Email</TableCell>
-              <TableCell className="text-primary font-bold">Phone</TableCell>
-              <TableCell className="text-primary font-bold">Position</TableCell>
+              <TableCell
+                className="text-primary font-bold cursor-pointer"
+                onClick={() => handleSortChange("id")}
+              >
+                Id{" "}
+                {sort === "id" &&
+                  (order === "ASC" ? (
+                    <KeyboardArrowUpIcon />
+                  ) : (
+                    <KeyboardArrowDownIcon />
+                  ))}
+              </TableCell>
+              <TableCell
+                className="text-primary font-bold cursor-pointer"
+                onClick={() => handleSortChange("name")}
+              >
+                Name
+                {sort === "name" &&
+                  (order === "ASC" ? (
+                    <KeyboardArrowUpIcon />
+                  ) : (
+                    <KeyboardArrowDownIcon />
+                  ))}
+              </TableCell>
+              <TableCell
+                className="text-primary font-bold cursor-pointer"
+                onClick={() => handleSortChange("email")}
+              >
+                Email
+                {sort === "email" &&
+                  (order === "ASC" ? (
+                    <KeyboardArrowUpIcon />
+                  ) : (
+                    <KeyboardArrowDownIcon />
+                  ))}
+              </TableCell>
+              <TableCell
+                className="text-primary font-bold cursor-pointer"
+                onClick={() => handleSortChange("phone")}
+              >
+                Phone
+                {sort === "phone" &&
+                  (order === "ASC" ? (
+                    <KeyboardArrowUpIcon />
+                  ) : (
+                    <KeyboardArrowDownIcon />
+                  ))}
+              </TableCell>
+              <TableCell className="text-primary font-bold cursor-pointer">
+                Position
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
