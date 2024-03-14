@@ -21,7 +21,7 @@ const primaryButtons: Button[] = [
   {
     label: "Home",
     icon: <HomeOutlinedIcon />,
-    url: "",
+    url: "/",
   },
 ];
 
