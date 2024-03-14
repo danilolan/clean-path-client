@@ -1,4 +1,7 @@
+"use client";
+
 import Table from "./components/table";
+import { FilterProvider } from "./context/useFilter";
 
 export type Customer = {
   name: string;
@@ -12,8 +15,8 @@ export type Customer = {
 
 export default function List() {
   return (
-    <div>
+    <FilterProvider>
       <Table />
-    </div>
+    </FilterProvider>
   );
 }

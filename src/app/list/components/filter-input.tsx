@@ -7,6 +7,7 @@ import {
   TextField,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import { useFilter } from "../context/useFilter";
 
 type Props = {
   filterValue: string;
@@ -15,12 +16,8 @@ type Props = {
   setFilterkey: (value: string) => void;
 };
 
-export default function FilterInput({
-  filterValue,
-  setFilterValue,
-  filterkey,
-  setFilterkey,
-}: Props) {
+export default function FilterInput() {
+  const { filterValue, setFilterValue, filterKey, setFilterKey } = useFilter();
   return (
     <div className="w-full bg-white rounded shadow p-4">
       <div className="grid grid-cols-[70%,30%]">
@@ -44,10 +41,10 @@ export default function FilterInput({
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={filterkey}
+              value={filterKey}
               label="Age"
               onChange={(e) => {
-                setFilterkey(e.target.value);
+                setFilterKey(e.target.value);
               }}
             >
               <MenuItem value={"id"}>Id</MenuItem>

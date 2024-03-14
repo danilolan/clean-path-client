@@ -15,13 +15,12 @@ import {
 import useSWR from "swr";
 import { AllCustomersDTO } from "@/types/dtos";
 import FilterInput from "./filter-input";
-import useTable from "../hooks/useTable";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import useFilter from "../hooks/useFilter";
 import usePagination from "../hooks/usePagination";
 import useSort from "../hooks/useSort";
 import TablePaginationActions from "@mui/material/TablePagination/TablePaginationActions";
+import { FilterProvider, useFilter } from "../context/useFilter";
 
 export default function Table() {
   const { filterValue, setFilterValue, filterKey, setFilterKey } = useFilter();
@@ -51,12 +50,7 @@ export default function Table() {
     <CircularProgress />
   ) : (
     <div className="flex flex-col gap-8">
-      <FilterInput
-        filterValue={filterValue}
-        setFilterValue={setFilterValue}
-        filterkey={filterKey}
-        setFilterkey={setFilterKey}
-      />
+      <FilterInput />
       <TableContainer component={Paper}>
         <MuiTable sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
